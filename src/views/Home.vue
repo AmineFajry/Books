@@ -15,7 +15,7 @@
   
 
     <v-btn
-      class="mx-2"
+      class="mx-2 my-3"
       fab
       dark
       color="indigo"
@@ -27,10 +27,24 @@
 
     </v-btn>
 
-    <div class="todo" v-for="(todo,index) in todos " :key="index" >
-        <input type="checkbox" name="" id="" :checked='todo.checked'>
-        <span>{{todo.name}}</span>
+<v-container>
+    <v-row justify="center">
+
+    <div  class="todo " v-for="(todo,index) in todos " :key="index">
+
+        <v-card  :elevation=" 10 " height="100"  width="100"  class="secondary mx-5 my-5 "  >  
+
+            <v-row class="fill-height blue lighten-1"  align="center"  justify="center"  >
+                
+                {{todo.name}}
+                
+            </v-row>  
+
+        </v-card>
     </div>  
+
+</v-row>
+  </v-container>
 
 </div>
 </template>
@@ -52,7 +66,7 @@ export default {
     methods : {
         addTodo() {
         
-            this.todos.push({name : this.file , checked : false });
+            this.todos.push({name : this.file });
 
         },
 
