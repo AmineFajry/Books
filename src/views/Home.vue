@@ -32,19 +32,6 @@
         <span>{{todo.name}}</span>
     </div>  
 
-
-    <!-- <div class="todos">
-        <h1>Mes taches</h1>
-        <input type="text" placeholder="Nouvelle tache" v-model="todoInput"/>
-        <button @click = "addTodo()" >Ajouter une tache</button>
-        <div class="todo" v-for="(todo,index) in todos " :key="index" >
-            <input type="checkbox" name="" id="" :checked='todo.checked'>
-            <span>{{todo.name}}</span>
-        </div>  
-    </div>--> 
-
-
-
 </div>
 </template>
 
@@ -80,6 +67,3 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
