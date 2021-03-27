@@ -15,54 +15,16 @@
             text
             rounded
             class="my-2"
+            :to="link.path"
           >
-            {{ link }}
+            {{ link.title }}
           </v-btn>
 
         </v-row>
 
       </v-app-bar>
 
-      <v-navigation-drawer app permanent
-          color="primary lighten-1"
-          padless
-      >
 
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title">
-            Application
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            subtext
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-
-
-      </v-navigation-drawer>
 
   <!-- Sizes your content based upon application components -->
   <v-main>
@@ -94,19 +56,19 @@ export default {
 
   data: () => ({
     links: [
-      'Home',
-      'About Us',
-      'Team',
-      'Services',
-      'Blog',
-      'Contact Us',
-      'Panier',
+      {title : 'Home' , path:'/'},
+      {title : 'About Us' , path : '/about'},
+      {title:'Team',path:'/team'},
+      {title:'Services',path:'/services'},
+      {title:'Blog',path:'/blog'},
+      {title:'Contact Us',path:'/contact'},
+      {title:'Panier',path:'/panier'},
     ],
 
     items: [
-      { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-      { title: 'Photos', icon: 'mdi-image' },
-      { title: 'About', icon: 'mdi-help-box' },
+      { title: 'Dashboard', icon: 'mdi-view-dashboard' , path : '/dashboard'},
+      { title: 'Photos', icon: 'mdi-image', path : '/photos' },
+      { title: 'Help', icon: 'mdi-help-box', path : '/help' },
     ],
     right: null
   })

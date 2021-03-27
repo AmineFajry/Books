@@ -2,18 +2,18 @@
 
 <div>
 
-
-<h1>Vos livres</h1>
-
-  <v-file-input
+    <h1>Ajouter votre livre</h1>
+    <v-file-input
     @change="fileSelected"
+    :rules="rules"
     accept="image/*"
-    label="Mettez votre livre"
+    placeholder="Pick an avatar"
+    prepend-icon="mdi-camera"
+    label="Avatar"
     v-model="todoInput"
     id="File"
     name="File"
-  >
-  </v-file-input>
+    ></v-file-input>
 
   <v-text-field
     @change="filedescription"
@@ -21,13 +21,14 @@
     placeholder="Placeholder"
     outlined
      id="description"
+     max-width = "150px"
   ></v-text-field>
       
 
   
 
     <v-btn
-      class="mx-2 my-3"
+      class="mx-2 "
       fab
       dark
       color="indigo"
@@ -45,7 +46,7 @@
 
     <div  class="todo " v-for="(todo,index) in todos " :key="index">
 
-        <v-card  :elevation=" 10 " height="100"  width="100"  class="secondary mx-10 my-13 "  >  
+        <v-card  :elevation=" 10 " max-height="200"  max-width="200"  class="secondary mx-10 my-16  "  >  
 
             <v-row class="fill-height white lighten-1"  align="center"  justify="center"  >
                 
@@ -55,9 +56,8 @@
                  <v-img
                   v-if="imageUrl" :src="imageUrl"
 
-                  width = "124"
-                  
-                  height = "124"
+                  max-height="200"
+                  max-width="200"
 
                  ></v-img>
 
@@ -120,7 +120,7 @@ export default {
         filedescription()
         {
             this.fileDescription  = document.getElementById('description').value;
-            alert(this.fileDescription);
+
         }
     }
 
