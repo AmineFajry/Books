@@ -25,9 +25,6 @@
     max-width = "150px"
     v-model = txtdescription
   ></v-text-field>
-      
-
-  
 
     <v-btn
       class="mx-2 "
@@ -36,14 +33,13 @@
       color="indigo"
       @click = "addTodo()"
       type="submit"
-  
     >
       <v-icon dark>
         mdi-plus
       </v-icon>
-
     </v-btn>
-    </form>
+
+  </form>
 
 <v-container>
 
@@ -99,8 +95,6 @@ export default {
             todoInput : null,
             txtdescription:null,
             urlimage : null 
-          
-
         };
     },
     methods : {
@@ -110,14 +104,9 @@ export default {
                              value : this.fileDescription,
                              imageUrl : this.imageUrl,
                              image : this.image});
-
-
-  
-
         },
         postData()
         {
-
             axios.post('http://localhost:3000/books',{                 
                 todoInput : this.file ,
                 txtdescription : this.txtdescription,
@@ -128,11 +117,7 @@ export default {
               // Si la requête échoue
               console.log(err.response.data); // => the response payload 
             });
-
         },
-        
-
-            
         fileSelected(){
             //name 
              this.file = document.getElementById('File').files[0].name;
@@ -157,7 +142,6 @@ export default {
     },
     mounted()
     {
-
       axios.get('http://localhost:3000/books').then(response => {
         // Si la requête réussi
         
@@ -181,25 +165,14 @@ export default {
               console.error("Parsing error:", e);
             }
 
-
         }
       
       }).catch(err => {
         // Si la requête échoue
         console.log(err)
       });
-
-
-
     }
-
-
-
 };
-
-
-
-
 
 </script>
 
