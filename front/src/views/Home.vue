@@ -47,26 +47,29 @@
 
     <div  class="todo " v-for="(todo,index) in todos " :key="index">
 
-        <v-card  :elevation=" 10 " max-height="200"  max-width="200"  class="secondary mx-10 my-16  "  >  
+        <v-card  :elevation=" 10 " height="200"  width="200"  class="secondary mx-10 my-16  "  >  
 
-            <v-row class="fill-height white lighten-1"  align="center"  justify="center"  >
+            <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;'>
                 
-               
+                <div>
                 {{todo.name}}
+                </div>
 
+
+                <div>
                  <v-img
-                  v-if="imageUrl" :src="todo.imageUrl"
+                  v-if="todo.imageUrl" :src="todo.imageUrl"
 
-                  max-height="200px"
+                  max-height="100px"
                   max-width="200px"
 
-                  v-model = urlimage
-
                  ></v-img>
+                 </div>
 
-                {{todo.value}}
+                <v-card-text>
 
-                
+                  <div>{{todo.value}}</div>
+                </v-card-text>
                 
             </v-row>  
 
@@ -80,99 +83,109 @@
 </div>
 </template>
 
-<script>
-import axios from 'axios';
+  <script>
+  let todotab=[];
+  import axios from 'axios';
 
-export default {
-    name:"Todos",
-    data:() => {
-        return {
-            todos:[],
-            file : null,
-            imageUrl : null ,
-            image : null,
-            fileDescription : null,
-            todoInput : null,
-            txtdescription:null,
-            urlimage : null 
-        };
-    },
-    methods : {
-        addTodo() {
+  export default {
+      name:"Todos",
+      data:() => {
+          return {
+              todos:todotab,
+              file : null,
+              imageUrl : null ,
+              image : null,
+              fileDescription : null,
+              todoInput : null,
+              txtdescription:null,
+              urlimage : null, 
+          };
+      },
+      methods : {
+          addTodo() {
+          
+              this.todos.push({name : this.file,
+                              value : this.fileDescription,
+                              imageUrl : this.imageUrl,
+                              image : this.image});
+
+              
+          },
+          postData()
+          {
+              axios.post('http://localhost:3000/books',{                 
+                  todoInput : this.file ,
+                  txtdescription : this.txtdescription,
+                  urlimage : this.imageUrl
+                  }).then(response => {
+                  console.log(response);
+              }).catch(err => {
+                // Si la requête échoue
+                console.log(err.response.data); // => the response payload 
+              });
+          },
+          fileSelected(){
+              //name 
+              this.file = document.getElementById('File').files[0].name;
+
+              //image
+              let fileImage = this.file ; 
+              fileImage = document.getElementById('File').files[0]; 
+              this.image = fileImage;
+              this.imageUrl = URL.createObjectURL(fileImage);
+            
+          },
+
+          filedescription()
+          {
+            //description
+              this.fileDescription  = document.getElementById('description').value;
+
+          }
+          
+      },
+      mounted()
+      {
+
+        axios.get('http://localhost:3000/books').then(response => {
+          // Si la requête réussi
+          
+          for(let i = 0 ; i < response.data.length ; i++)
+          {
+
+              const newElement = response.data[i];
+
+              try{
+
+              const obj = JSON.stringify(newElement);
+
+              const json = JSON.parse(obj);
+
+              console.log(json.name); //name 
+              console.log(json.image); // image
+              console.log(json.description); //description
+
+              todotab.push({    name : json.name,
+                                value : json.description,
+                                imageUrl : json.image,
+                                });
+
+
+              } catch (e) {
+                console.error("Parsing error:", e);
+              }
+
+          }
+
+          console.log(todotab);
         
-            this.todos.push({name : this.file,
-                             value : this.fileDescription,
-                             imageUrl : this.imageUrl,
-                             image : this.image});
-        },
-        postData()
-        {
-            axios.post('http://localhost:3000/books',{                 
-                todoInput : this.file ,
-                txtdescription : this.txtdescription,
-                urlimage : this.imageUrl
-                }).then(response => {
-                console.log(response);
-            }).catch(err => {
-              // Si la requête échoue
-              console.log(err.response.data); // => the response payload 
-            });
-        },
-        fileSelected(){
-            //name 
-             this.file = document.getElementById('File').files[0].name;
+        }).catch(err => {
+          // Si la requête échoue
+          console.log(err)
+        });
+      }
+  };
 
-            //image
-             let fileImage = this.file ; 
-             fileImage = document.getElementById('File').files[0]; 
-             this.image = fileImage;
-             this.imageUrl = URL.createObjectURL(fileImage);
-
-    
-           
-        },
-
-        filedescription()
-        {
-          //description
-            this.fileDescription  = document.getElementById('description').value;
-
-        }
-        
-    },
-    mounted()
-    {
-      axios.get('http://localhost:3000/books').then(response => {
-        // Si la requête réussi
-        
-        for(let i = 0 ; i < response.data.length ; i++)
-        {
-
-            const newElement = response.data[i];
-
-            try{
-
-            const obj = JSON.stringify(newElement);
-
-            const json = JSON.parse(obj);
-
-            console.log(json.name); //name 
-            console.log(json.image); // image
-            console.log(json.description); //description
-
-
-            } catch (e) {
-              console.error("Parsing error:", e);
-            }
-
-        }
-      
-      }).catch(err => {
-        // Si la requête échoue
-        console.log(err)
-      });
-    }
-};
 
 </script>
 

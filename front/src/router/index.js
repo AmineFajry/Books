@@ -5,7 +5,7 @@ import Services from '../views/Services.vue'
 import Panier from '../views/Panier.vue'
 import Team from '../views/Team.vue'
 import Contact from '../views/Contact.vue'
-import Blog from '../views/Blog.vue'
+import Forum from '../views/Forum.vue'
 
 Vue.use(VueRouter)
 
@@ -35,9 +35,9 @@ const routes = [
     component: Contact
   },
   {
-    path: '/blog',
-    name: 'Blog',
-    component: Blog
+    path: '/forum',
+    name: 'Forum',
+    component: Forum
   },
   {
     path: '/team',
