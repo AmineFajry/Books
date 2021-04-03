@@ -3,15 +3,17 @@
 <div>
 
     <h1>Ajouter votre livre</h1>
+
+  <form  @submit.prevent = "postData" method="post">
+
     <v-file-input
     @change="fileSelected"
     accept="image/*"
     placeholder="Pick an avatar"
     prepend-icon="mdi-camera"
     label="Avatar"
-    v-model="todoInput"
+    v-model= todoInput
     id="File"
-    name="File"
     ></v-file-input>
 
 
@@ -21,6 +23,7 @@
     placeholder="Placeholder"
     id="description"
     max-width = "150px"
+    v-model = txtdescription
   ></v-text-field>
       
 
@@ -32,12 +35,15 @@
       dark
       color="indigo"
       @click = "addTodo()"
+      type="submit"
+  
     >
       <v-icon dark>
         mdi-plus
       </v-icon>
 
     </v-btn>
+    </form>
 
 <v-container>
 
@@ -58,9 +64,11 @@
                   max-height="200px"
                   max-width="200px"
 
+                  v-model = urlimage
+
                  ></v-img>
 
-                {{todo.desc}}
+                {{todo.value}}
 
                 
                 
@@ -83,12 +91,15 @@ export default {
     name:"Todos",
     data:() => {
         return {
-            todoInput:'',
             todos:[],
             file : null,
             imageUrl : null ,
             image : null,
-            fileDescription : null
+            fileDescription : null,
+            todoInput : null,
+            txtdescription:null,
+            urlimage : null 
+          
 
         };
     },
@@ -96,10 +107,30 @@ export default {
         addTodo() {
         
             this.todos.push({name : this.file,
-                             desc : this.fileDescription,
+                             value : this.fileDescription,
                              imageUrl : this.imageUrl,
                              image : this.image});
+
+
+  
+
         },
+        postData()
+        {
+
+            axios.post('http://localhost:3000/books',{                 
+                todoInput : this.file ,
+                txtdescription : this.txtdescription,
+                urlimage : this.imageUrl
+                }).then(response => {
+                console.log(response);
+            }).catch(err => {
+              // Si la requête échoue
+              console.log(err.response.data); // => the response payload 
+            });
+
+        },
+        
 
             
         fileSelected(){
@@ -120,22 +151,48 @@ export default {
         {
           //description
             this.fileDescription  = document.getElementById('description').value;
-          
 
         }
         
     },
     mounted()
     {
-    
-      axios.get('http://localhost:3000').then(response => {
+
+      axios.get('http://localhost:3000/books').then(response => {
         // Si la requête réussi
-        console.log(response.data)
+        
+        for(let i = 0 ; i < response.data.length ; i++)
+        {
+
+            const newElement = response.data[i];
+
+            try{
+
+            const obj = JSON.stringify(newElement);
+
+            const json = JSON.parse(obj);
+
+            console.log(json.name); //name 
+            console.log(json.image); // image
+            console.log(json.description); //description
+
+
+            } catch (e) {
+              console.error("Parsing error:", e);
+            }
+
+
+        }
+      
       }).catch(err => {
         // Si la requête échoue
         console.log(err)
-      })
+      });
+
+
+
     }
+
 
 
 };
