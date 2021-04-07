@@ -6,6 +6,7 @@ import Panier from '../views/Panier.vue'
 import Team from '../views/Team.vue'
 import Contact from '../views/Contact.vue'
 import Forum from '../views/Forum.vue'
+import Detail from '../views/Detail.vue'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,10 @@ const routes = [
     path: '/panier',
     name: 'Panier',
     component: Panier
+  },{
+    path: '/detail',
+    name: 'Detail',
+    component: Detail
   }
 
 ]

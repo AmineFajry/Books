@@ -47,7 +47,7 @@
 
     <div  class="todo " v-for="(todo,index) in todos " :key="index">
 
-        <v-card  :elevation=" 10 " height="200"  width="200"  class="secondary mx-10 my-16  "  >  
+        <v-card  :elevation=" 10 " height="400"  width="200"  class="secondary mx-10 my-16  "  >  
 
             <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;'>
                 
@@ -60,7 +60,7 @@
                  <v-img
                   v-if="todo.imageUrl" :src="todo.imageUrl"
 
-                  max-height="100px"
+                  max-height="200px"
                   max-width="200px"
 
                  ></v-img>
@@ -165,10 +165,10 @@
               console.log(json.image); // image
               console.log(json.description); //description
 
-              todotab.push({    name : json.name,
-                                value : json.description,
-                                imageUrl : json.image,
-                                });
+             todotab.push({   name : json.name,
+                              value : json.description,
+                              imageUrl : json.image,
+                            });
 
 
               } catch (e) {
