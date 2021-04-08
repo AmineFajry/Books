@@ -2,7 +2,8 @@
 
 <div>
 
-    <h1>Ajouter votre livre</h1>
+
+  <h1 >Ajouter votre livre</h1>
 
   <form  @submit.prevent = "postData" method="post">
 
@@ -47,20 +48,20 @@
 
     <div  class="todo " v-for="(todo,index) in todos " :key="index">
 
-        <v-card  :elevation=" 10 " height="300"  width="200"  class="secondary mx-10 my-16  "  >  
+        <v-card  :elevation=" 10 " height="300"  width="200"  class="secondary mx-10 my-16">  
 
-            <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;'>
+            <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;' >
                 
                 <div>
                 {{todo.name}}
                 </div>
 
 
-                <div>
-                  <a href="/#/detail">
+                <div  >
+                  <a href="/#/detail" @click="infoImage($event)" >
                  <v-img
                   v-if="todo.imageUrl" :src="todo.imageUrl"
-
+              
                   max-height="200px"
                   max-width="200px"
 
@@ -93,6 +94,7 @@
       name:"Todos",
       data:() => {
           return {
+              selectedItem : null ,
               todos:[],
               file : null,
               imageUrl : null ,
@@ -101,17 +103,24 @@
               todoInput : null,
               txtdescription:null,
               urlimage : null, 
+              itemId : [{id : "tata"},{id : "toto"}]
+
           };
       },
       methods : {
           addTodo() {
           
-              this.todos.push({name : this.file,
+              this.todos.push({
+                              name : this.file,
                               value : this.fileDescription,
                               imageUrl : this.imageUrl,
                               image : this.image});
 
               
+          },
+          infoImage(event)
+          {
+            console.log(event.target);
           },
           postData()
           {
@@ -162,14 +171,11 @@
               const obj = JSON.stringify(newElement);
 
               const json = JSON.parse(obj);
-
-              console.log(json.name); //name 
-              console.log(json.image); // image
-              console.log(json.description); //description
-
-              this.todos.push({    name : json.name,
+ 
+              this.todos.push({ id : json.id,
+                                name : json.name,
                                 value : json.description,
-                                imageUrl : json.image,
+                                imageUrl : "https://the-watch-book.com/142-large_default/-francais-millennium-watch-book.jpg",
                                 });
 
 
@@ -179,8 +185,6 @@
 
           }
 
-          console.log(this.todos);
-        
         }).catch(err => {
           // Si la requête échoue
           console.log(err)
