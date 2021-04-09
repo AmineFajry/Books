@@ -42,48 +42,48 @@
 
   </form>
 
-<v-container>
+  <v-container>
 
-    <v-row justify="center">
+      <v-row justify="center">
 
-    <div  class="todo " v-for="(todo,index) in todos " :key="index">
+      <div  class="todo " v-for="(todo,index) in todos " :key="index">
 
-        <v-card  :elevation=" 10 " height="300"  width="200"  class="secondary mx-10 my-16">  
+          <v-card  :elevation=" 10 " height="300"  width="200"  class="secondary mx-10 my-16">  
 
-            <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;' >
+              <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;' >
+                  
+                  <div class="nametext">
+                  {{todo.name}}
+                  </div>
+
+
+                  <div  >
+                    <a href="/#/detail" @click="infoImage($event)" >
+                  <v-img
+                    v-if="todo.imageUrl" :src="todo.imageUrl"
                 
-                <div>
-                {{todo.name}}
-                </div>
+                    max-height="200px"
+                    max-width="200px"
 
+                  ></v-img>
+                  </a>
+                  </div>
 
-                <div  >
-                  <a href="/#/detail" @click="infoImage($event)" >
-                 <v-img
-                  v-if="todo.imageUrl" :src="todo.imageUrl"
-              
-                  max-height="200px"
-                  max-width="200px"
+                  <v-card-text>
 
-                 ></v-img>
-                 </a>
-                 </div>
+                    <div class = "textdescription ">{{todo.value}}</div>
+                  </v-card-text>
+                  
+              </v-row>  
+          </v-card>
+      </div>  
 
-                <v-card-text>
-
-                  <div>{{todo.value}}</div>
-                </v-card-text>
-                
-            </v-row>  
-
-        </v-card>
-    </div>  
-
-</v-row>
-  </v-container>
+      </v-row>
+    </v-container>
 
 
 </div>
+
 </template>
 
   <script>
@@ -195,3 +195,17 @@
 
 </script>
 
+<style  scoped>
+
+.textdescription 
+{
+  font-family:Arial, Helvetica, sans-serif;font-size:20px; text-align: center 
+}
+
+.nametext
+{
+  font-weight:bold;
+}
+
+
+</style>
