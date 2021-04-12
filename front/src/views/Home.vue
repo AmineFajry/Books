@@ -1,5 +1,9 @@
 <template>
 <div>
+
+  <h2>Cherchez un livre :   <input type="search" id="mySearch" @keyup="search_filter()" placeholder="Recherche..." title="Recherche"></h2>
+
+
   <h1>Ajouter votre livre</h1>
 
   <form  @submit.prevent = "postData" method="post">
@@ -32,6 +36,9 @@
       @click = "addTodo()"
       type="submit"
     >
+
+
+   
       <v-icon dark>
         mdi-plus
       </v-icon>
@@ -41,7 +48,7 @@
 
   <v-container>
 
-      <v-row justify="center">
+      <v-row justify="center" id="list_coontainer">
 
         <homecomponent  v-for="(todo,index) in todos " :key="index" :todo = "todo" @delete="deleteElement(todo.id)" @edit="editElement(todo.id)" />
 
@@ -63,6 +70,7 @@ import Homecomponent from '../components/Homecomponent.vue';
           return {
               selectedItem : null ,
               todos:[],
+              todos_tmp:[],
               file : null,
               imageUrl : null ,
               image : null,
@@ -118,7 +126,6 @@ import Homecomponent from '../components/Homecomponent.vue';
                   todoInput : new_name ,
                   txtdescription : new_description ,
 
-
                     }).then(response => {
                     console.log(response);
 
@@ -163,8 +170,28 @@ import Homecomponent from '../components/Homecomponent.vue';
             //description
               this.fileDescription  = document.getElementById('description').value;
 
+          },
+          search_filter(){
+
+
+
+            let myInput = document.getElementById("mySearch")
+            let maList = document.getElementById("list_coontainer")
+            let counter = 0
+            maList.childNodes.forEach(element => {
+              if(this.todos[counter].name.toUpperCase().includes(myInput.value.toUpperCase())){
+                element.style.display = "";
+
+              }else{
+                element.style.display = "none";
+              }
+              counter+=1
+            });
+            
+
+
           }
-          
+    
       },
       mounted()
       {
@@ -205,4 +232,6 @@ import Homecomponent from '../components/Homecomponent.vue';
 
 
 </script>
+
+
 

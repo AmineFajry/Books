@@ -5,13 +5,13 @@
 
               <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;' >
                   
-                  <div class="nametext" id = "id">
-                  {{todo.id}} {{todo.name}}
+                  <div class="nametext">
+                  {{todo.name}}
                   </div>
 
 
                   <div >
-                    <a href="/#/detail" @click="infoImage()" >
+                    <a href="/#/detail" @click="infoImage(todo)" >
                   <v-img
                     v-if="todo.imageUrl" :src="todo.imageUrl"
                 
@@ -64,10 +64,10 @@ export default {
         id : String
     },
     methods : {
-        infoImage()
+        infoImage(leTodo)
         {
             var idFromChild = this.id ;
-            idFromChild = this.todo.id ;
+            idFromChild = leTodo.id ;
             console.log(idFromChild);
             this.$emit('affiche');
 
