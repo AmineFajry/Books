@@ -7,43 +7,10 @@
     <v-row justify="center">
 
 
-    <div  class="todo " v-for="(todo,index) in todos " :key="index">
+    <div  class="todo ">
 
-        <v-card  :elevation=" 10 " height="400"  width="200"  class="secondary mx-10 my-16  "  >  
-
-            <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;'>
-                
-                <div>
-                {{todo.name}}
-                </div>
-
-
-                <div>
-                 <v-img
-                  v-if="todo.imageUrl" :src="todo.imageUrl"
-
-                  max-height="200px"
-                  max-width="200px"
-
-                 ></v-img>
-                 </div>
-
-                <v-card-text>
-
-                  <div>{{todo.value}}</div>
-                </v-card-text>
-
-                    <v-btn color="primary">
-                      Modifier
-                    </v-btn>
-
-                    <v-btn   color="error">
-                    Supprimer 
-                    </v-btn>
-                
-            </v-row>  
-
-        </v-card>
+      <homecomponent  v-for="(todo,index) in todos " :key="index" :todo = "todo" />
+        
     </div>  
 
 </v-row>
@@ -55,50 +22,57 @@
 </template>
 
 <script>
-
     import axios from 'axios';
+    import Homecomponent from '../components/Homecomponent.vue';
 
     export default {
+        components: { Homecomponent },
         name:"Todos",
         data:() => {
             return {
-                todos:[],
+              todos:[],
+              id :' '
             };
         },
-      mounted()
-      {
+        methods:
+        {
 
-        axios.get('http://localhost:3000/books/29').then(response => {
-          // Si la requête réussi
-          
-          for(let i = 0 ; i < response.data.length ; i++)
-          {
+        },
+        mounted()
+        {
 
-              const newElement = response.data[i];
+          let id = 29;
+          axios.get(`http://localhost:3000/books/${id}`).then(response => {
+            // Si la requête réussi
+            
+            for(let i = 0 ; i < response.data.length ; i++)
+            {
 
-              try{
+                const newElement = response.data[i];
 
-              const obj = JSON.stringify(newElement);
+                try{
 
-              const json = JSON.parse(obj);
+                const obj = JSON.stringify(newElement);
 
-              console.log(json.name); //name 
-              console.log(json.image); // image
-              console.log(json.description); //description
-
-              this.todos.push({    name : json.name,
-                                value : json.description,
-                                imageUrl : json.image,
-                                });
+                const json = JSON.parse(obj);
 
 
-              } catch (e) {
-                console.error("Parsing error:", e);
-              }
 
-          }
+                this.todos.push({ 
+                                  id : json.id,
+                                  name : json.name,
+                                  value : json.description,
+                                  imageUrl : json.image,
+                                  });
 
-          console.log(this.todos);
+
+                } catch (e) {
+                  console.error("Parsing error:", e);
+                }
+
+            }
+
+
         
         }).catch(err => {
           // Si la requête échoue

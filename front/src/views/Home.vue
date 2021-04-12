@@ -1,9 +1,6 @@
 <template>
-
 <div>
-
-
-  <h1 >Ajouter votre livre</h1>
+  <h1>Ajouter votre livre</h1>
 
   <form  @submit.prevent = "postData" method="post">
 
@@ -46,51 +43,21 @@
 
       <v-row justify="center">
 
-      <div  class="todo " v-for="(todo,index) in todos " :key="index">
-
-          <v-card  :elevation=" 10 " height="300"  width="200"  class="secondary mx-10 my-16">  
-
-              <v-row class="fill-height white lighten-1"  align="center"  justify="center"  style='overflow:hidden;' >
-                  
-                  <div class="nametext">
-                  {{todo.name}}
-                  </div>
-
-
-                  <div  >
-                    <a href="/#/detail" @click="infoImage($event)" >
-                  <v-img
-                    v-if="todo.imageUrl" :src="todo.imageUrl"
-                
-                    max-height="200px"
-                    max-width="200px"
-
-                  ></v-img>
-                  </a>
-                  </div>
-
-                  <v-card-text>
-
-                    <div class = "textdescription ">{{todo.value}}</div>
-                  </v-card-text>
-                  
-              </v-row>  
-          </v-card>
-      </div>  
+        <homecomponent  v-for="(todo,index) in todos " :key="index" :todo = "todo" @delete="deleteElement(todo.id)" @edit="editElement(todo.id)" />
 
       </v-row>
     </v-container>
-
 
 </div>
 
 </template>
 
-  <script>
-
-  import axios from 'axios';
+<script>
+import axios from 'axios';
+import Homecomponent from '../components/Homecomponent.vue';
 
   export default {
+  components: { Homecomponent },
       name:"Todos",
       data:() => {
           return {
@@ -103,8 +70,6 @@
               todoInput : null,
               txtdescription:null,
               urlimage : null, 
-              itemId : [{id : "tata"},{id : "toto"}]
-
           };
       },
       methods : {
@@ -118,9 +83,55 @@
 
               
           },
-          infoImage(event)
+          deleteElement(id)
           {
-            console.log(event.target);
+
+              
+              axios.delete(`http://localhost:3000/books/${id}`,{                 
+                  todoInput : this.file ,
+                  txtdescription : this.txtdescription,
+                  urlimage : this.imageUrl
+                  }).then(response => {
+                  console.log(response);
+
+                        
+              }).catch(err => {
+                // Si la requête échoue
+                console.log(err.response.data); // => the response payload 
+              });
+
+
+              window.location.reload();
+              
+
+          },
+          editElement(id)
+          {
+
+            let new_name = prompt(`Renseingez le nouveau nom :`, 'nom par defaut');
+            let new_description = prompt('Renseingez la nouvelle description :');
+           
+            let ifConfirm = confirm('Vous voulez confirmer le changement ? ');
+            if(ifConfirm){
+              axios.patch(`http://localhost:3000/books/${id}`,{   
+
+                  todoInput : new_name ,
+                  txtdescription : new_description ,
+
+
+                    }).then(response => {
+                    console.log(response);
+
+                          
+                }).catch(err => {
+                  // Si la requête échoue
+                  console.log(err.response.data); // => the response payload 
+                });
+
+                window.location.reload();
+            }
+
+
           },
           postData()
           {
@@ -195,17 +206,3 @@
 
 </script>
 
-<style  scoped>
-
-.textdescription 
-{
-  font-family:Arial, Helvetica, sans-serif;font-size:20px; text-align: center 
-}
-
-.nametext
-{
-  font-weight:bold;
-}
-
-
-</style>
