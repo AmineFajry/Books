@@ -11,7 +11,7 @@
 
 
                   <div >
-                    <a href="javascript:window.location.href(encodeURIComponent('/#/detail/${todo.id}'))" @click="infoImage(todo)" >
+                    <a href="/#/detail/"  @click="infoImage(todo)" >
                   <v-img
                     v-if="todo.imageUrl" :src="todo.imageUrl"
                 
