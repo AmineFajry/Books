@@ -40,8 +40,8 @@
         },
         mounted()
         {
-
-          let id = 29;
+          let id = this.$route.params.id;
+ 
           axios.get(`http://localhost:3000/books/${id}`).then(response => {
             // Si la requête réussi
             

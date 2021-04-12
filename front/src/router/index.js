@@ -51,7 +51,7 @@ const routes = [
     name: 'Panier',
     component: Panier
   },{
-    path: '/detail',
+    path: '/detail/:id',
     name: 'Detail',
     component: Detail
   }

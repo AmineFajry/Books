@@ -11,7 +11,7 @@
 
 
                   <div >
-                    <a href="/#/detail" @click="infoImage(todo)" >
+                    <a href="javascript:window.location.href(encodeURIComponent('/#/detail/${todo.id}'))" @click="infoImage(todo)" >
                   <v-img
                     v-if="todo.imageUrl" :src="todo.imageUrl"
                 
@@ -49,11 +49,6 @@
 
 <script>
 
-export class TodoDTO {
-    constructor(id = '') {
-        this.id = id;
-    }
-}
 
 
 
@@ -66,8 +61,7 @@ export default {
     methods : {
         infoImage(leTodo)
         {
-            var idFromChild = this.id ;
-            idFromChild = leTodo.id ;
+            let idFromChild = leTodo.id ;
             console.log(idFromChild);
             this.$emit('affiche');
 
